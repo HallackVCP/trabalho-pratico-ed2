@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdlib.h> //Limpar tela - usando: system("CLS");
 #include <stdio.h>
+#include "Review.h"
 #include <fstream>
-using namespace std;
-#include <stdio.h>
 #include<bits/stdc++.h>
+using namespace std;
+
 
 
 void leituraArquivoCompleto()
@@ -25,6 +26,23 @@ void leituraArquivoCompleto()
     }
 
     arquivo.close(); // fecha o arquivo
+}
+
+int nmRegistrosReviews(ifstream &arq){
+
+    if(arq.is_open()){
+
+        arq.seekg(0, ios_base::end);
+        int tam = int(arq.tellg()/sizeof(Review));
+        return tam;
+
+    }else{
+
+        cout << "Erro no retorno da quantidades de elementos salvos" << endl;
+        return -1;
+
+    }
+
 }
 
 Review *leituraLinha(string linha){
