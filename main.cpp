@@ -123,18 +123,66 @@ Review *leituraLinha(string linha){
     return review;
 } // FIM DA FUNCAO
 
+void escreveArquivoBinario(Review review, fstream &arq_binario)
+{
 
-void leituraCsvEscritaBinario(){
+    if(arq_binario.is_open())
+    {
+        arq_binario.write(reinterpret_cast<char*>(&review), sizeof(Review));
+        //cout<<"Gravando no arquivo binário"<<endl;
+    }
+    else{
+        cout<<"O arquivo não está aberto"<<endl;
+    }
+}
+
+/*void escreveArquivoBinarioString(string linha, fstream &arq_binario)
+{
+    if(arq_binario.is_open()){
+        arq_binario.write(reinterpret_cast<char*>(&linha), sizeof(string));
+    }
+    else{
+        cout<<"O arquivo não está aberto"<<endl;
+    }
+}*/
+
+/*void escreveArquivoTxtString(string linha, fstream &arq_texto){
+    if(arq_texto.is_open()){
+        arq_texto.write(reinterpret_cast<char*>(&linha), sizeof(string));
+    }
+    else{
+        cout<<"O arquivo não está aberto"<<endl;
+    }
+}*/
+void escreveArquivoTxt(Review review, fstream &arq_texto)
+{
+
+    if(arq_texto.is_open())
+    {
+        arq_texto.write(reinterpret_cast<char*>(&review), sizeof(Review));
+        //cout<<"Gravando no arquivo texto"<<endl;
+    }
+    else{
+        cout<<"O arquivo não está aberto"<<endl;
+    }
+}
+
+void leituraCsvEscritaBinario(string caminho){
+    string nome = caminho+"tiktok_app_reviews.csv";
     ifstream arquivoEntrada;
     string linha;
-    arquivoEntrada.open("tiktok_app_reviews.csv", ios::in);
+    fstream arq_bin("tiktok_app_reviews.bin", ios::out | ios::binary);
+    arquivoEntrada.open(nome, ios::in);
     Review *review;
     if(arquivoEntrada){
         getline(arquivoEntrada, linha);
         while(!arquivoEntrada.eof()){
             getline(arquivoEntrada, linha);
             review = leituraLinha(linha);
-            review->printReview();
+            if(arq_bin){
+                escreveArquivoBinario(*review, arq_bin);
+            }
+            //review->printReview();
             delete review;
         }
     }
@@ -142,10 +190,17 @@ void leituraCsvEscritaBinario(){
         return;
     }
     arquivoEntrada.close();
-
+    arq_bin.close();
 }
 
 int main(int argc, char *argv[ ])
 {
+    string caminhoCsv;
+    if(argv[1]){
+        caminhoCsv = argv[1];
+    }
+    else{
+        caminhoCsv = "";
+    }
     return 0;
 }
