@@ -193,6 +193,82 @@ void leituraCsvEscritaBinario(string caminho){
     arq_bin.close();
 }
 
+Review acessaRegistro(ifstream &arq, int n){
+    Review review;
+    if(arq.is_open()){
+        arq.seekg(n*sizeof(Review), ios_base::beg);
+        arq.read((char *) &review,sizeof(Review));
+        return review;
+    }
+    else{
+        return review;
+    }
+
+}
+
+
+Review returnVetReviews(ifstream &arq, int qtd){
+
+    Review *vetReviews = new Review[qtd];
+
+    if(!arq.is_open()){
+        cout << "Arquivo não aberto durante o retorno do vetor" << endl;
+        return *vetReviews;
+    }
+
+    srand(time(0));//mudar os numeros sorteados
+    int randN;
+
+    if(qtd > nmRegistrosReviews(arq)){cout << "Requisição maior do que os já salvos" << endl; return *vetReviews;}
+
+    try{
+
+        for(int i = 0; i < qtd ;i++){
+            randN = rand()%nmRegistrosReviews(arq);//soteia de 0 ao numero de Reviews - 1
+            vetReviews[i] = acessaRegistro(arq, randN);
+        }
+
+    }catch(const exception& e){
+
+        cout << "Erro ao ler n-quantidade de Reviews do arquivo";
+        cout << e.what() << endl;
+
+    }
+
+    return *vetReviews;
+
+}
+
+
+void testeImportacao(ifstream &arq){
+    int opcao;
+
+    cout<<"Digite como deseja ler os dados do arquivo: "<<endl<<"1 para ler do console"<<endl<<"2 para salvar em um arquivo de texto"<<endl;
+    cin>>opcao;
+    if(opcao == 1){
+        int qtd = 10
+    }
+    else if(opcao == 2){
+        qtd = 100
+    }
+    Review *reviews = new Review[qtd];
+    reviews = returnVetReviews(arq, qtd);
+    if(opcao == 1){
+        for(int i = 0; i<qtd; i++){
+            reviews[i]->printReview();
+        }
+    }
+    else if(opcao == 2){
+        ofstream arq_texto;
+        arq_texto.open("tiktok_app_reviews.txt", ios::out);
+        for(int i = 0; i<qtd; i++){
+            escreveArquivoTxt(reviews[i], arq_texto);
+        }
+    }
+    delete [] reviews;
+
+}
+
 int main(int argc, char *argv[ ])
 {
     string caminhoCsv;
