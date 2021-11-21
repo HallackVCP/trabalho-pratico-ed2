@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "Review.h"
 #include <fstream>
-#include<bits/stdc++.h>
+#include <ctime>
 using namespace std;
 
 
@@ -242,24 +242,24 @@ Review returnVetReviews(ifstream &arq, int qtd){
 
 void testeImportacao(ifstream &arq){
     int opcao;
-
+    int qtd;
     cout<<"Digite como deseja ler os dados do arquivo: "<<endl<<"1 para ler do console"<<endl<<"2 para salvar em um arquivo de texto"<<endl;
     cin>>opcao;
     if(opcao == 1){
-        int qtd = 10
+        qtd = 10;
     }
     else if(opcao == 2){
-        qtd = 100
+        qtd = 100;
     }
     Review *reviews = new Review[qtd];
-    reviews = returnVetReviews(arq, qtd);
+    *reviews = returnVetReviews(arq, qtd);
     if(opcao == 1){
         for(int i = 0; i<qtd; i++){
-            reviews[i]->printReview();
+            reviews[i].printReview();
         }
     }
     else if(opcao == 2){
-        ofstream arq_texto;
+        fstream arq_texto;
         arq_texto.open("tiktok_app_reviews.txt", ios::out);
         for(int i = 0; i<qtd; i++){
             escreveArquivoTxt(reviews[i], arq_texto);
@@ -276,7 +276,8 @@ int main(int argc, char *argv[ ])
         caminhoCsv = argv[1];
     }
     else{
-        caminhoCsv = "";
+        caminhoCsv = "./";
     }
+    leituraCsvEscritaBinario(caminhoCsv);
     return 0;
 }
