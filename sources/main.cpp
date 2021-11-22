@@ -238,7 +238,7 @@ Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registro
         cout << e.what() << endl;
 
     }
- 
+
     return vetReviews;
 
 }
@@ -273,6 +273,25 @@ void testeImportacao(ifstream &arq, string caminho){
 
 }
 
+
+void verificaArquivoBinario(string dirArq)
+{
+
+    string dirArqReview = dirArq + "tiktok_app_reviews.bin";
+    ifstream arqBin(dirArqReview, ios::in);
+
+    if (arqBin.is_open())
+    {
+        cout << "Arquivo binario ja existe." << endl;
+    }
+    else
+    {
+        cout << "O arquivo binario nao existe." << endl;
+        cout << "Criando arquivo..." << endl;
+        leituraCsvEscritaBinario(dirArq);
+    }
+}
+
 int main(int argc, char *argv[ ])
 {
     string caminho;
@@ -283,7 +302,9 @@ int main(int argc, char *argv[ ])
         caminho = "./";
     }
     int qtd;
-    leituraCsvEscritaBinario(caminho);
+
+    verificaArquivoBinario(caminho);
+
     //menu
     int opcoes = 1;
     while(opcoes == 1 || opcoes == 2 || opcoes == 3){
@@ -308,7 +329,7 @@ int main(int argc, char *argv[ ])
             for(int i =0; i<qtd; i++){
                 reviews[i].printReview();
             }
-        
+
         }
         else if(opcoes == 2){
             testeImportacao(arquivoBin, caminho);
@@ -317,6 +338,6 @@ int main(int argc, char *argv[ ])
             leituraArquivoCompleto(caminho);
         }
     }
-    
+
     return 0;
 }
