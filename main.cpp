@@ -10,10 +10,11 @@ using namespace std;
 
 
 
-void leituraArquivoCompleto()
+void leituraArquivoCompleto(string caminho)
 {
 
-    ifstream arquivo("tiktok_app_reviews.csv");
+    ifstream arquivo;
+    arquivo.open(caminho+"tiktok_app_reviews.csv");
     string linha;
     if(arquivo.is_open()) // se o arquivo está aberto
     {
@@ -45,7 +46,7 @@ int nmRegistrosReviews(ifstream &arq){
 
 }
 
-Review *leituraLinha(string linha){
+Review *leituraLinha(string linha){//funcao que lê uma linha e salva como review
     Review *review = new Review();
 
     string temp; // temporario
@@ -167,11 +168,11 @@ void escreveArquivoTxt(Review review, fstream &arq_texto)
     }
 }
 
-void leituraCsvEscritaBinario(string caminho){
+void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por linha,salva as linhas em um objeto review e salva no arquivo binario
     string nome = caminho+"tiktok_app_reviews.csv";
     ifstream arquivoEntrada;
     string linha;
-    fstream arq_bin("tiktok_app_reviews.bin", ios::out | ios::binary);
+    fstream arq_bin(caminho+"tiktok_app_reviews.bin", ios::out | ios::binary);
     arquivoEntrada.open(nome, ios::in);
     Review *review;
     if(arquivoEntrada){
@@ -193,7 +194,7 @@ void leituraCsvEscritaBinario(string caminho){
     arq_bin.close();
 }
 
-Review acessaRegistro(ifstream &arq, int n){
+Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
     Review review;
     if(arq.is_open()){
         arq.seekg(n*sizeof(Review), ios_base::beg);
@@ -207,7 +208,7 @@ Review acessaRegistro(ifstream &arq, int n){
 }
 
 
-Review returnVetReviews(ifstream &arq, int qtd){
+Review returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros aleatorios(quantidade passada por parametro)
 
     Review *vetReviews = new Review[qtd];
 
@@ -240,7 +241,7 @@ Review returnVetReviews(ifstream &arq, int qtd){
 }
 
 
-void testeImportacao(ifstream &arq){
+void testeImportacao(ifstream &arq, string caminho){
     int opcao;
     int qtd;
     cout<<"Digite como deseja ler os dados do arquivo: "<<endl<<"1 para ler do console"<<endl<<"2 para salvar em um arquivo de texto"<<endl;
@@ -260,7 +261,7 @@ void testeImportacao(ifstream &arq){
     }
     else if(opcao == 2){
         fstream arq_texto;
-        arq_texto.open("tiktok_app_reviews.txt", ios::out);
+        arq_texto.open(caminho+"tiktok_app_reviews.txt", ios::out);
         for(int i = 0; i<qtd; i++){
             escreveArquivoTxt(reviews[i], arq_texto);
         }
@@ -271,13 +272,16 @@ void testeImportacao(ifstream &arq){
 
 int main(int argc, char *argv[ ])
 {
-    string caminhoCsv;
+    string caminho;
     if(argv[1]){
-        caminhoCsv = argv[1];
+        caminho = argv[1];
     }
     else{
-        caminhoCsv = "./";
+        caminho = "./";
     }
-    leituraCsvEscritaBinario(caminhoCsv);
+    int qtd;
+    leituraCsvEscritaBinario(caminho);
+    
+    
     return 0;
 }
