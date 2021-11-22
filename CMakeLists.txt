@@ -1,11 +1,18 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(trabalho VERSION 0.1.0)
+cmake_minimum_required(VERSION 3.0.0))
 
-include(CTest)
-enable_testing()
+#Nome no projeto
+project(trabalho)
 
-add_executable(trabalho main.cpp)
+set(CMAKE_CXX_STANDARD 11)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+#pastas de arquivos src
+file(GLOB SOURCES
+
+    sources/*.cpp
+    
+)
+
+add_executable(trabalho ${SOURCES})
+
+#pasta dos arquivos headers
+target_include_directories(trabalho PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} / headers)

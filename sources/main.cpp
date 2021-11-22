@@ -172,7 +172,7 @@ void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por lin
     string nome = caminho+"tiktok_app_reviews.csv";
     ifstream arquivoEntrada;
     string linha;
-    fstream arq_bin(caminho+"tiktok_app_reviews.bin", ios::out | ios::binary);
+    fstream arq_bin("tiktok_app_reviews.bin", ios::out | ios::binary);
     arquivoEntrada.open(nome, ios::in);
     Review *review;
     if(arquivoEntrada){
@@ -194,10 +194,10 @@ void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por lin
     arq_bin.close();
 }
 
-Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
+/*Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
     Review review;
     if(arq.is_open()){
-        arq.seekg(n*sizeof(Review), ios_base::beg);
+        arq.seekg(randN*sizeof(Review), ios_base::beg);
         arq.read((char *) &review,sizeof(Review));
         return review;
     }
@@ -205,12 +205,13 @@ Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo regis
         return review;
     }
 
-}
+}*/
 
 
 Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros aleatorios(quantidade passada por parametro)
 
     Review *vetReviews = new Review[qtd];
+    Review *review = new Review;
 
     if(!arq.is_open()){
         cout << "Arquivo não aberto durante o retorno do vetor" << endl;
@@ -224,18 +225,20 @@ Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registro
 
     try{
 
-        for(int i = 0; i < qtd ;i++){
+        for(int i = 0; i<qtd; i++){
             randN = rand()%nmRegistrosReviews(arq);//soteia de 0 ao numero de Reviews - 1
-            vetReviews[i] = acessaRegistro(arq, randN);
+            arq.seekg(randN*sizeof(Review), ios_base::beg);//acessando registro
+            arq.read((char *) &review,sizeof(Review));//acessando registro
+            vetReviews[i] = *review;//salvando registro
+            //vetReviews[i] = acessaRegistro(arq, randN);
         }
-
     }catch(const exception& e){
 
         cout << "Erro ao ler n-quantidade de Reviews do arquivo";
         cout << e.what() << endl;
 
     }
-
+ 
     return vetReviews;
 
 }
