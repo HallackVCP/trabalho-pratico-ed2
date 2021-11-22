@@ -8,13 +8,19 @@ PEDRO HENRIQUE PASCOALINO MARQUES
 
 VINICIUS HALLACK COBUCCI PEROBELLI DA SILVA
 
-Como compilar:
+## Pré requisitos
+[cmake](https://cmake.org/) version 3.0.0
 
-Estando na pasta ./build utilize o comando: cmake ..
+## Como Compilar?
 
+Estando na pasta **./build** utilize:
 
-Após essa execução utilizar o comando: make 
+	cmake ..
 
-Como rodar:
+Após essa execução, utilizar:
 
-Na pasta ./build utilizar o comando: ./trabalho pastaOrigemArquivos
+	make
+
+## Como rodar?
+
+Na pasta **./build**  utilizar o comando: ./trabalho pastaOrigemArquivos
