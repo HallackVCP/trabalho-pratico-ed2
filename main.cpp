@@ -208,19 +208,19 @@ Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo regis
 }
 
 
-Review returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros aleatorios(quantidade passada por parametro)
+Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros aleatorios(quantidade passada por parametro)
 
     Review *vetReviews = new Review[qtd];
 
     if(!arq.is_open()){
         cout << "Arquivo não aberto durante o retorno do vetor" << endl;
-        return *vetReviews;
+        return vetReviews;
     }
 
     srand(time(0));//mudar os numeros sorteados
     int randN;
 
-    if(qtd > nmRegistrosReviews(arq)){cout << "Requisição maior do que os já salvos" << endl; return *vetReviews;}
+    if(qtd > nmRegistrosReviews(arq)){cout << "Requisição maior do que os já salvos" << endl; return vetReviews;}
 
     try{
 
@@ -236,7 +236,7 @@ Review returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros
 
     }
 
-    return *vetReviews;
+    return vetReviews;
 
 }
 
@@ -253,7 +253,7 @@ void testeImportacao(ifstream &arq, string caminho){
         qtd = 100;
     }
     Review *reviews = new Review[qtd];
-    *reviews = returnVetReviews(arq, qtd);
+    reviews = returnVetReviews(arq, qtd);
     if(opcao == 1){
         for(int i = 0; i<qtd; i++){
             reviews[i].printReview();
@@ -281,7 +281,39 @@ int main(int argc, char *argv[ ])
     }
     int qtd;
     leituraCsvEscritaBinario(caminho);
-    
+    //menu
+    int opcoes = 1;
+    while(opcoes == 1 || opcoes == 2 || opcoes == 3){
+        opcoes = 0;
+
+        // MENU
+        cout<<"Digite:\n[1] para ler n-registros aleatorios do arquivo binario"<<endl<<"[2] para chamar o teste de importacao"<<endl;
+        cout<<"[3] imprimir todos os registros do csv"<<endl<<"[4] para sair"<<endl;
+        cout<<"Digite sua opcao: ";
+
+        cin>>opcoes;
+
+        ifstream arquivoBin;
+        arquivoBin.open(caminho+"tiktok_app_reviews.bin", ios::in);
+        if(opcoes == 1){
+            int qtd;
+
+            cout<<"Digite quantos registros deseja ler: ";
+            cin>>qtd;
+            Review *reviews = new Review[qtd];
+            reviews = returnVetReviews(arquivoBin, qtd);
+            for(int i =0; i<qtd; i++){
+                reviews[i].printReview();
+            }
+        
+        }
+        else if(opcoes == 2){
+            testeImportacao(arquivoBin, caminho);
+        }
+        else if(opcoes == 3){
+            leituraArquivoCompleto(caminho);
+        }
+    }
     
     return 0;
 }
