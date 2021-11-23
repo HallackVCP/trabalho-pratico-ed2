@@ -14,7 +14,7 @@ void leituraArquivoCompleto(string caminho)
 {
 
     ifstream arquivo;
-    arquivo.open(caminho+"tiktok_app_reviews.csv");
+    arquivo.open(caminho+"/tiktok_app_reviews.csv");
     string linha;
     if(arquivo.is_open()) // se o arquivo está aberto
     {
@@ -169,7 +169,7 @@ void escreveArquivoTxt(Review review, fstream &arq_texto)
 }
 
 void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por linha,salva as linhas em um objeto review e salva no arquivo binario
-    string nome = caminho+"tiktok_app_reviews.csv";
+    string nome = caminho+"/tiktok_app_reviews.csv";
     ifstream arquivoEntrada;
     string linha;
     fstream arq_bin("tiktok_app_reviews.bin", ios::out | ios::binary);
@@ -264,7 +264,7 @@ void testeImportacao(ifstream &arq, string caminho){
     }
     else if(opcao == 2){
         fstream arq_texto;
-        arq_texto.open(caminho+"tiktok_app_reviews.txt", ios::out);
+        arq_texto.open(caminho+"/tiktok_app_reviews.txt", ios::out);
         for(int i = 0; i<qtd; i++){
             escreveArquivoTxt(reviews[i], arq_texto);
         }
@@ -277,7 +277,7 @@ void testeImportacao(ifstream &arq, string caminho){
 void verificaArquivoBinario(string dirArq)
 {
 
-    string dirArqReview = dirArq + "tiktok_app_reviews.bin";
+    string dirArqReview = dirArq + "/tiktok_app_reviews.bin";
     ifstream arqBin(dirArqReview, ios::in);
 
     if (arqBin.is_open())
@@ -318,7 +318,7 @@ int main(int argc, char *argv[ ])
         cin>>opcoes;
 
         ifstream arquivoBin;
-        arquivoBin.open(caminho+"tiktok_app_reviews.bin", ios::in);
+        arquivoBin.open(caminho+"/tiktok_app_reviews.bin", ios::in);
         if(opcoes == 1){
             int qtd;
 
