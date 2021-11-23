@@ -203,7 +203,7 @@ void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por lin
 Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
     Review review;
     if(arq.is_open()){
-        arq.seekg(n2*sizeof(Review), ios_base::beg);
+        arq.seekg(n*sizeof(Review), ios_base::beg);
         arq.read((char *) &review,sizeof(Review));
         return review;
     }
@@ -235,8 +235,8 @@ Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registro
             randN = rand()%nmRegistrosReviews(arq);//soteia de 0 ao numero de Reviews - 1
             arq.seekg(randN*sizeof(Review), ios_base::beg);//acessando registro
             arq.read((char *) &review,sizeof(Review));//acessando registro
+
             vetReviews[i] = *review;//salvando registro
-            //vetReviews[i] = acessaRegistro(arq, randN);
         }
     }catch(const exception& e){
 
