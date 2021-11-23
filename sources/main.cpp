@@ -9,7 +9,6 @@
 using namespace std;
 
 
-
 void leituraArquivoCompleto(string caminho)
 {
 
@@ -29,6 +28,7 @@ void leituraArquivoCompleto(string caminho)
     arquivo.close(); // fecha o arquivo
 }
 
+
 int nmRegistrosReviews(ifstream &arq){
 
     if(arq.is_open()){
@@ -45,6 +45,7 @@ int nmRegistrosReviews(ifstream &arq){
     }
 
 }
+
 
 Review *leituraLinha(string linha){//funcao que lê uma linha e salva como review
     Review *review = new Review();
@@ -124,6 +125,7 @@ Review *leituraLinha(string linha){//funcao que lê uma linha e salva como revie
     return review;
 } // FIM DA FUNCAO
 
+
 void escreveArquivoBinario(Review review, fstream &arq_binario)
 {
 
@@ -136,6 +138,7 @@ void escreveArquivoBinario(Review review, fstream &arq_binario)
         cout<<"O arquivo não está aberto"<<endl;
     }
 }
+
 
 /*void escreveArquivoBinarioString(string linha, fstream &arq_binario)
 {
@@ -155,6 +158,8 @@ void escreveArquivoBinario(Review review, fstream &arq_binario)
         cout<<"O arquivo não está aberto"<<endl;
     }
 }*/
+
+
 void escreveArquivoTxt(Review review, fstream &arq_texto)
 {
 
@@ -194,10 +199,11 @@ void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por lin
     arq_bin.close();
 }
 
-/*Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
+
+Review acessaRegistro(ifstream &arq, int n){ //funcao que acessa o i-esimo registro de um arquivo
     Review review;
     if(arq.is_open()){
-        arq.seekg(randN*sizeof(Review), ios_base::beg);
+        arq.seekg(n2*sizeof(Review), ios_base::beg);
         arq.read((char *) &review,sizeof(Review));
         return review;
     }
@@ -205,13 +211,13 @@ void leituraCsvEscritaBinario(string caminho){ //le o arquivo .csv linha por lin
         return review;
     }
 
-}*/
+}
 
 
 Review *returnVetReviews(ifstream &arq, int qtd){ //funcao que acessa n registros aleatorios(quantidade passada por parametro)
 
-    Review *vetReviews = new Review[qtd];
-    Review *review = new Review;
+    Review *vetReviews = new Review[qtd*10];
+    Review *review = new Review[qtd*10];
 
     if(!arq.is_open()){
         cout << "Arquivo não aberto durante o retorno do vetor" << endl;
@@ -292,6 +298,7 @@ void verificaArquivoBinario(string dirArq)
     }
 }
 
+
 int main(int argc, char *argv[ ])
 {
     string caminho;
@@ -305,13 +312,10 @@ int main(int argc, char *argv[ ])
 
     verificaArquivoBinario(caminho);
 
-    //menu
-    int opcoes = 1;
-    while(opcoes == 1 || opcoes == 2 || opcoes == 3){
-        opcoes = 0;
-
+    int opcoes;
+    do{
         // MENU
-        cout<<"Digite:\n[1] para ler n-registros aleatorios do arquivo binario"<<endl<<"[2] para chamar o teste de importacao"<<endl;
+        cout<<"Escolha:\n[1] para ler n-registros aleatorios do arquivo binario"<<endl<<"[2] para chamar o teste de importacao"<<endl;
         cout<<"[3] imprimir todos os registros do csv"<<endl<<"[4] para sair"<<endl;
         cout<<"Digite sua opcao: ";
 
@@ -337,7 +341,13 @@ int main(int argc, char *argv[ ])
         else if(opcoes == 3){
             leituraArquivoCompleto(caminho);
         }
-    }
+        else if (opcoes == 4){
+            cout << "Saindo..." << endl;
+        }
+        else{
+            cout << "Opcao invalida" << endl;
+        }
+    }while(opcoes != 4);
 
     return 0;
 }
